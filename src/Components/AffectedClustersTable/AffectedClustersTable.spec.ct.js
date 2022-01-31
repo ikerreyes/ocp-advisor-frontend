@@ -9,18 +9,15 @@ import data from '../../../cypress/fixtures/AffectedClustersTable/data.json';
 import { Intl } from '../../Utilities/intlHelper';
 import getStore from '../../Store';
 import '@patternfly/patternfly/patternfly.scss';
-import {
-  FilterableTable,
-  filterableTable,
-} from '../../../cypress/views/filterableTable';
+import { FilterableTable } from '../../../cypress/views/filterableTable';
 
 class View extends FilterableTable {
   isDisplayed = function () {
     return cy
       .get(`div[id=affected-list-table]`)
       .within(($div) => {
-        this.toolbar.locate().should('have.length', 1);
-        this.table.locate().should('have.length', 1);
+        this.toolbar.should('have.length', 1);
+        this.table.should('have.length', 1);
         cy.get('div[data-ouia-component-type="RHI/TableToolbar"]').should(
           'have.length',
           1
@@ -131,11 +128,11 @@ describe('non-empty successful affected clusters table', () => {
     it(`can add name filter (${el})`, () => {
       cy.get(TABLE).find('#name-filter').type(el);
       // renders filter chips
-      cy.locate(view.toolbar.chips).should('contain', 'Name').and('contain', el);
+      view.toolbar.chips.should('contain', 'Name').and('contain', el);
       // check matched clusters
       cy.wrap(filterData(el)).then((data) => {
         if (data.length === 0) {
-          cy.locate(view.table.emptyState)
+          view.table.emptyState
             .should('contain', 'No matching clusters found')
             .and(
               'contain',
@@ -150,44 +147,43 @@ describe('non-empty successful affected clusters table', () => {
 
   it('can clear filters', () => {
     cy.get(TABLE).find('#name-filter').type('custom');
-    cy.locate(view.toolbar).find('button').contains('Clear filters').click();
-    cy.locate(view.toolbar.chips).should('not.exist');
+    view.toolbar.find('button').contains('Clear filters').click();
+    view.toolbar.chips.should('not.exist');
     view.table.rows.checkCounts(
       Math.min(DEFAULT_ROW_COUNT, filterData().length)
     );
   });
 
   it('display name is rendered instead of cluster uuid', () => {
-    cy.locate(view.table.rows)
+    view.table.rows
       .contains('custom cluster name 2')
       .should('have.attr', 'href')
       .and('contain', '/clusters/f7331e9a-2f59-484d-af52-338d56165df5');
   });
 
   it('renders table header', () => {
-    cy.locate(view.table.headers).children().eq(0).should('have.text', 'Name');
-    cy.locate(view.table.headers)
-      .children()
-      .eq(1)
-      .should('have.text', 'Last seen');
+    view.table.headers.children().eq(0).should('have.text', 'Name');
+    view.table.headers.children().eq(1).should('have.text', 'Last seen');
   });
 
   it('can select/deselect all', () => {
-    cy.locate(view.toolbar.toggleCheckbox).click();
-    cy.locate(view.toolbar.toggleCheckboxText)
-      .should('have.text', `${filterData().length} selected`);
-      cy.locate(view.toolbar).find('.pf-c-dropdown__toggle').find('button').click();
-      cy.locate(view.toolbar)
+    view.toolbar.toggleCheckbox.click();
+    view.toolbar.toggleCheckboxText.should(
+      'have.text',
+      `${filterData().length} selected`
+    );
+    view.toolbar.find('.pf-c-dropdown__toggle').find('button').click();
+    view.toolbar
       .find('ul[class=pf-c-dropdown__menu]')
       .find('li')
       .eq(1)
       .click({ force: true });
-      cy.locate(view.toolbar.toggleCheckboxText).should('not.exist');
+    view.toolbar.toggleCheckboxText.should('not.exist');
   });
 
   it('can disable selected clusters', () => {
-    cy.locate(view.toolbar.toggleCheckbox).click();
-    cy.locate(view.toolbar).find('button[aria-label=Actions]').click();
+    view.toolbar.toggleCheckbox.click();
+    view.toolbar.find('button[aria-label=Actions]').click();
     cy.get('.pf-c-dropdown__menu')
       .find('li')
       .find('button')
@@ -198,11 +194,11 @@ describe('non-empty successful affected clusters table', () => {
   });
 
   it('can disable one cluster', () => {
-    cy.locate(view.table.rows)
+    view.table.rows
       .eq(0)
       .find('.pf-c-table__action button')
       .click({ force: true });
-      cy.locate(view.table.rows)
+    view.table.rows
       .eq(0)
       .find('.pf-c-dropdown__menu button')
       .click({ force: true });
@@ -214,7 +210,7 @@ describe('non-empty successful affected clusters table', () => {
   it('can iterate over pages', () => {
     cy.wrap(itemsPerPage()).each((el, index, list) => {
       view.table.rows.checkCounts(el);
-      cy.locate(view.toolbar.pagination.nextButton).then(($button) => {
+      view.toolbar.pagination.nextButton.then(($button) => {
         if (index === list.length - 1) {
           cy.wrap($button).should('be.disabled');
         } else {
@@ -257,7 +253,7 @@ describe('empty successful affected clusters table', () => {
 
   it('cannot add filters to empty table', () => {
     cy.get(TABLE).find('#name-filter').type('foobar');
-    view.toolbar.chips.locate().should('not.exist');
+    view.toolbar.chips.should('not.exist');
   });
 
   it('renders no clusters message', () => {
@@ -267,11 +263,8 @@ describe('empty successful affected clusters table', () => {
   });
 
   it('renders table header', () => {
-    cy.locate(view.table.headers).children().eq(0).should('have.text', 'Name');
-    cy.locate(view.table.headers)
-      .children()
-      .eq(1)
-      .should('have.text', 'Last seen');
+    view.table.headers.children().eq(0).should('have.text', 'Name');
+    view.table.headers.children().eq(1).should('have.text', 'Last seen');
   });
 });
 
@@ -308,10 +301,7 @@ describe('empty failed affected clusters table', () => {
   });
 
   it('renders table header', () => {
-    cy.locate(view.table.headers).children().eq(0).should('have.text', 'Name');
-    cy.locate(view.table.headers)
-      .children()
-      .eq(1)
-      .should('have.text', 'Last seen');
+    view.table.headers.children().eq(0).should('have.text', 'Name');
+    view.table.headers.children().eq(1).should('have.text', 'Last seen');
   });
 });
