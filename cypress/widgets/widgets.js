@@ -1,3 +1,23 @@
+
+
+/**
+ * This function is intended to capture all "get"s of view objects
+ * and call locate (Locatable method) on widgets
+ */
+ const handler = {
+  get: function (obj, prop) {
+    if (prop in obj) {
+      // object property
+      return Reflect.get(...arguments);
+    } else {
+      // assume nested cypress command
+      const cyObj = obj.locate()
+      return cyObj[prop];
+    }
+  },
+};
+
+
 /**
  * Widgets are holders of elements
  * and other Widgets
@@ -8,6 +28,8 @@ class Widget {
     if (locator) {
       this.locator = locator;
     }
+    const proxy = new Proxy(this, handler);
+    return proxy;
   }
   locate() {
     if (this.parent && this.parent.locator) {
