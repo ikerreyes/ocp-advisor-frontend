@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@patternfly/react-core": "^4.206.2",
-    "@patternfly/react-table": "^4.71.16",
+    "@patternfly/react-table": "^4.83.1",
     "@redhat-cloud-services/frontend-components": "3.8.12",
     "@redhat-cloud-services/frontend-components-advisor-components": "^1.0.1",
     "@redhat-cloud-services/frontend-components-charts": "^3.2.2",
@@ -51,7 +51,7 @@
     "semver": "^7.3.7"
   },
   "devDependencies": {
-    "@babel/core": "7.17.12",
+    "@babel/core": "7.18.2",
     "@babel/plugin-proposal-object-rest-spread": "7.17.3",
     "@babel/plugin-transform-runtime": "7.17.12",
     "@babel/preset-env": "7.17.10",
