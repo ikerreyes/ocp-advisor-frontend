@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { Intl } from '../../Utilities/intlHelper';
 import getStore from '../../Store';
 // load the component and the data
+// (might be better to generate the data on the fly given some conditions)
 import { AffectedClustersTable } from './AffectedClustersTable';
 import clusterDetailData from '../../../cypress/fixtures/api/insights-results-aggregator/v2/rule/external.rules.rule|ERROR_KEY/clusters_detail.json';
 import rule from '../../../cypress/fixtures/api/insights-results-aggregator/v2/rule/external.rules.rule|ERROR_KEY.json';
@@ -67,7 +68,7 @@ describe('demo test for the table', () => {
   // // describe-s can be nested
   // describe('bulk selector', () => {
   //   it('checkbox can be clicked', () => {
-  //     // custom commands can be defined
+  //     // custom commands can be defined, e.g. ouiaType
   //     cy.ouiaId('clusters-selector', 'input').click().should('be.checked');
   //     cy.get('table')
   //       .find('tbody[role=rowgroup]')
@@ -77,17 +78,17 @@ describe('demo test for the table', () => {
   //       });
   //   });
 
-  //   it('has buttons to select none or all', () => {
-  //     cy.ouiaId('clusters-selector').find('button').click();
-  //     cy.ouiaId('clusters-selector')
-  //       .find('ul li')
-  //       .should(($lis) => {
-  //         // expect is like should but does not wait
-  //         expect($lis).to.have.length(2);
-  //         expect($lis.eq(0)).to.contain('0');
-  //         expect($lis.eq(1)).to.contain(`${data.length}`);
-  //       });
-  //   });
+  //   // it('has buttons to select none or all', () => {
+  //   //   cy.ouiaId('clusters-selector').find('button').click();
+  //   //   cy.ouiaId('clusters-selector')
+  //   //     .find('ul li')
+  //   //     .should(($lis) => {
+  //   //       // expect is like should but does not wait
+  //   //       expect($lis).to.have.length(2);
+  //   //       expect($lis.eq(0)).to.contain('0');
+  //   //       expect($lis.eq(1)).to.contain(`${data.length}`);
+  //   //     });
+  //   // });
   // });
 
   // // describe-s can be nested
